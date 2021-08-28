@@ -13,7 +13,7 @@ namespace Spaceship
         {
             speed = newSpeed;
             Random random = new Random();
-            position = new Vector2(1350, random.Next(radius, 721 - radius));
+            position = new Vector2(1350, random.Next(0, 721));
         }
 
         public void asteroidUpadate(GameTime gameTime)

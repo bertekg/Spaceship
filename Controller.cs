@@ -10,15 +10,17 @@ namespace Spaceship
         public List<Asteroid> asteroids = new List<Asteroid>();
         public double timer = 2;
         public double maxTime = 2;
-        public double minTime = 0.5;
+        public double minTime = 0.4;
         public int nextSpeed = 240;
         public bool inGame = false;
+        public double totalTime = 0;
 
         public void controllerUpdate(GameTime gameTime)
         {
             if (inGame == true)
             {
                 timer -= gameTime.ElapsedGameTime.TotalSeconds;
+                totalTime += gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
@@ -26,6 +28,10 @@ namespace Spaceship
                 if (keyboardState.IsKeyDown(Keys.Enter))
                 {
                     inGame = true;
+                    totalTime = 0;
+                    timer = 2;
+                    maxTime = 2;
+                    nextSpeed = 240;
                 }
             }
 
@@ -34,7 +40,7 @@ namespace Spaceship
                 asteroids.Add(new Asteroid(nextSpeed));
                 timer += maxTime;
 
-                maxTime -= 0.1;
+                maxTime -= 0.05;
                 if (maxTime < minTime)
                 {
                     maxTime = minTime;

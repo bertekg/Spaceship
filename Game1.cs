@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Spaceship
 {
@@ -60,6 +61,23 @@ namespace Spaceship
             foreach (Asteroid asteroid in gameController.asteroids)
             {
                 asteroid.asteroidUpadate(gameTime);
+
+                int sumRadius = asteroid.radius + player.radius;
+                if (Vector2.Distance(asteroid.position, player.position) < sumRadius)
+                {
+                    gameController.inGame = false;
+                    player.position = Ship.defaultPoition;
+                    gameController.asteroids.Clear();
+                    break;
+                }
+            }
+
+            for (int i = gameController.asteroids.Count - 1; i >= 0; i--)
+            {
+                if (gameController.asteroids[i].position.X <= -50)
+                {
+                    gameController.asteroids.RemoveAt(i);
+                } 
             }
 
             base.Update(gameTime);
@@ -83,6 +101,8 @@ namespace Spaceship
                 int halfWidth = _graphics.PreferredBackBufferWidth / 2;
                 _spriteBatch.DrawString(gameFont, menuMessage, new Vector2(halfWidth - (menuMessageSize.X / 2), 200), Color.White);
             }
+            _spriteBatch.DrawString(timerFont, "Time: " + Math.Floor(gameController.totalTime).ToString(), new Vector2(3, 3), Color.White);
+            _spriteBatch.DrawString(timerFont, "Number of asteroids: " + gameController.asteroids.Count.ToString(), new Vector2(180, 3), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
