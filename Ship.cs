@@ -5,7 +5,8 @@ namespace Spaceship
 {
     class Ship
     {
-        public Vector2 position = new Vector2(100, 100);
+        static public Vector2 defaultPoition = new Vector2(640, 360);
+        public Vector2 position = defaultPoition;
         public double speed = 180;
         private float currentSpeed = 0f;
 

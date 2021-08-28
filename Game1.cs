@@ -51,7 +51,10 @@ namespace Spaceship
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.shipUpdate(gameTime);
+            if (gameController.inGame == true)
+            {
+                player.shipUpdate(gameTime);
+            }
             gameController.controllerUpdate(gameTime);
 
             foreach (Asteroid asteroid in gameController.asteroids)
@@ -73,6 +76,13 @@ namespace Spaceship
                 _spriteBatch.Draw(asteroidSprite, new Vector2(asteroid.position.X - asteroid.radius, asteroid.position.Y - asteroid.radius), Color.White);
             }
             _spriteBatch.Draw(shipSprite, new Vector2(player.position.X - (shipSprite.Width / 2), player.position.Y - (shipSprite.Height / 2)), Color.White);
+            if (gameController.inGame == false)
+            {
+                string menuMessage = "Press Enter to Begin!";
+                Vector2 menuMessageSize = gameFont.MeasureString(menuMessage);
+                int halfWidth = _graphics.PreferredBackBufferWidth / 2;
+                _spriteBatch.DrawString(gameFont, menuMessage, new Vector2(halfWidth - (menuMessageSize.X / 2), 200), Color.White);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);

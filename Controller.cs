@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Spaceship
 {
@@ -11,10 +12,22 @@ namespace Spaceship
         public double maxTime = 2;
         public double minTime = 0.5;
         public int nextSpeed = 240;
+        public bool inGame = false;
 
         public void controllerUpdate(GameTime gameTime)
         {
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            if (inGame == true)
+            {
+                timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                KeyboardState keyboardState = Keyboard.GetState();
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                {
+                    inGame = true;
+                }
+            }
 
             if (timer <= 0)
             {
